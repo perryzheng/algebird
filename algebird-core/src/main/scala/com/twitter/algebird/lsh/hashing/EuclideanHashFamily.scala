@@ -21,7 +21,7 @@ class EuclideanHashFamily(radius: Double, dimension: Int) extends HashFamily wit
     for (i <- 0 until dimension)
       randomProjection.update(i, rand.nextGaussian)
 
-    log.debug("Euclidean Hasher: tableId: %d, hashFunctionId: %d, offset: %d, projection: %s",
+    println("Euclidean Hasher: tableId: %d, hashFunctionId: %d, offset: %d, projection: %s",
       hashTableId, hashFunctionId, offset, randomProjection.reduce(_ + _))
 
     def hash(vector: Array[Double]): Int = {

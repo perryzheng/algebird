@@ -9,7 +9,7 @@ import com.twitter.algebird._
  */
 trait BaseLshVector {
   def size: Int
-  def apply(index: Int): Double // Return Vector[index]
+  def apply(index: Int): Double // Return Vector(index)
   def toDoubleVec: Array[Double]
   override def hashCode: Int = util.Arrays.hashCode(toDoubleVec)
 }
