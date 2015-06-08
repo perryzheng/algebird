@@ -1,6 +1,6 @@
-package com.twitter.lsh.hashing
+package com.twitter.algebird.lsh.hashing
 
-import com.twitter.lsh.vector.BaseLshVector
+import com.twitter.algebird.lsh.vector.BaseLshVector
 
 trait Hasher {
   def hash(vector: Array[Double]): Int

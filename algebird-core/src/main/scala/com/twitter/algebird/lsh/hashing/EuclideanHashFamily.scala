@@ -1,8 +1,8 @@
-package com.twitter.lsh.hashing
+package com.twitter.algebird.lsh.hashing
 
 import java.util.Arrays
 
-import com.twitter.lsh.vector.{ BaseLshVector, VectorMath }
+import com.twitter.algebird.lsh.vector.{ BaseLshVector, VectorMath }
 
 import scala.util.Random
 
@@ -11,7 +11,6 @@ class EuclideanHashFamily(radius: Double, dimension: Int) extends HashFamily wit
   override def hashCode = dimension * 1000 + (radius * 10).toInt + familyId
 
   class EuclideanHasher(hashTableId: Int, hashFunctionId: Int, radius: Double, dimension: Int) extends Hasher with Serializable {
-    lazy val log = Logger("Euclidean Hasher")
     val rand = new Random(hashTableId * 10000 + hashFunctionId)
     //DO NOT REMOVE :: http://stackoverflow.com/questions/12282628/why-are-initial-random-numbers-similar-when-using-similar-seeds
     rand.nextInt()

@@ -1,4 +1,4 @@
-package com.twitter.lsh.vector
+package com.twitter.algebird.lsh.vector
 
 import java.util
 
