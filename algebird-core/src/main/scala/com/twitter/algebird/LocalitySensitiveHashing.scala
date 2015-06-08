@@ -1,9 +1,9 @@
-package com.twitter.algebird.statistics
+package com.twitter.algebird
 
 import Array._
 
 /**
- * @param dimension: Number of dimensions
+ * @param dimensions: Number of dimensions
  * @param numHashFunctions: number of hash functions
  * @param numTuplesForEachHashFunction: tuples in each of the L hash functions
  * @param bucketSize: size of the bucket, defaults to 4
@@ -12,7 +12,20 @@ case class RNearNeighbor (
   dimensions: Int,
   numHashFunctions: Int,
   numTuplesForEachHashFunction: Int,
-  bucketSize: Int = 4)
+  bucketSize: Int = 4) { 
+
+
+}
+
+/**
+ * A point is defined as a vector of coordinates
+ * @param index: the index of this point in the dataset list of points
+ * @param coordinates: 
+ */
+case class Point(
+  index: Int,
+  coordinates: Seq[Double]
+)
 
 /** 
  * A function drawn from the locality-sensitive family of hash functions
@@ -31,17 +44,17 @@ class LocalitySensitiveHashing(rNearNeighbor: RNearNeighbor) {
   private def genGaussianRandom() = 
     gaussianGenerator.sample(r)
 
-  private def genUnitformRandom(rangeMin: Double, rangeMax: Double) = 
+  private def genUniformRandom(rangeMin: Double, rangeMax: Double) = 
     rangeMin + (rangeMax - rangeMin) * r.nextDouble();
 
   /**
    * returns a matrix of size numHashFunctions x numTuplesForEachHashFunction
-   * nHFTuples
-   * hfTuplesLength
+   * nHFTuples = L
+   * hfTuplesLength = K 
    * dimension
    */
-  lazy val hashFunctions = { 
-    val lshFuntions = ofDim[lshFuntions](numHashFunctions,
+  lazy val hashFunctions: Array[Array[LSHFunction]] = { 
+    val lshFuntions = ofDim[LSHFunction](numHashFunctions,
       numTuplesForEachHashFunction)
 
     for (i <- 0 to rNearNeighbor.numHashFunctions) {
@@ -56,8 +69,11 @@ class LocalitySensitiveHashing(rNearNeighbor: RNearNeighbor) {
     lshFuntions
   }
 
-  def computeLSHValue(
-    hashFunctionIndex: Int,
-    point: Point) = { 
+  def computeLSHValue(hashFunctionIndex: Int, point: Point) = { 
+  }
+
+  def addNewPointToRNearNeighborStruct(rNearNeighbor: RNearNeighbor, point: Point) = { 
+
+
   }
 }
