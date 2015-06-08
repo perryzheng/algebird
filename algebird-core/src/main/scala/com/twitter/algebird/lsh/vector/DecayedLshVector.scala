@@ -1,7 +1,7 @@
 package com.twitter.lsh.vector
 
 import com.twitter.algebird._
-import com.twitter.bijection.{Bijection, Bufferable}
+import com.twitter.bijection.{ Bijection, Bufferable }
 
 /**
  * Defines the Injection and builder for the Monoid necessary for a MergeableSource
@@ -11,12 +11,12 @@ import com.twitter.bijection.{Bijection, Bufferable}
  */
 object DecayedLshVector {
   // DecayedLshVector <=> DecayedVector
-  implicit val decayedLshVectorBijection = Bijection.build { dlv:DecayedLshVector => dlv.vector }
-  { case vec => new DecayedLshVector(vec) }
+  implicit val decayedLshVectorBijection = Bijection.build { dlv: DecayedLshVector => dlv.vector } { case vec => new DecayedLshVector(vec) }
 
   // DecayedVector <=> (Array[Double], Double)
   implicit val decayedVectorBijection = Bijection.build { dv: DecayedVector[Array] =>
-    (dv.vector, dv.scaledTime) } { case (vec, time) => DecayedVector[Array](vec, time) }
+    (dv.vector, dv.scaledTime)
+  } { case (vec, time) => DecayedVector[Array](vec, time) }
 
   // (Array[Double], Double) => Array[Bytes]
   implicit val tupleInjection = Bufferable.injectionOf[(Array[Double], Double)]
@@ -33,7 +33,7 @@ object DecayedLshVector {
   implicit def doubleArrayGroup = new SummingArrayGroup[Double]
 
   implicit def doubleArraySpace =
-    VectorSpace.from[Double, Array]{(s, array) => array.map(Ring.times(s, _)).toArray}
+    VectorSpace.from[Double, Array]{ (s, array) => array.map(Ring.times(s, _)).toArray }
 
   // TODO(acs): I'm not sure how inefficient this is. If it is, define metric in terms of Array.
   implicit def doubleArrayMetric = new Metric[Array[Double]] {
@@ -70,12 +70,12 @@ object DecayedLshVector {
    * @return - Array[Double] of decayed coefficients
    */
   def extractor(halfLife: Long, time: Long = System.currentTimeMillis,
-                decayedVectorMonoid: Monoid[DecayedLshVector] = monoidWithEpsilon(-1.0)):
-  DecayedLshVector => Array[Double] = {
-    (vector: DecayedLshVector) => {
-      decayedVectorMonoid.plus(vector,
-        new DecayedLshVector(Array.ofDim[Double](vector.vector.vector.size), time, halfLife)).toDoubleVec
-    }
+    decayedVectorMonoid: Monoid[DecayedLshVector] = monoidWithEpsilon(-1.0)): DecayedLshVector => Array[Double] = {
+    (vector: DecayedLshVector) =>
+      {
+        decayedVectorMonoid.plus(vector,
+          new DecayedLshVector(Array.ofDim[Double](vector.vector.vector.size), time, halfLife)).toDoubleVec
+      }
   }
 }
 
@@ -93,6 +93,6 @@ class DecayedLshVector(in: DecayedVector[Array]) extends BaseLshVector {
 
   val vector = in
   override def size = vector.vector.size
-  override def apply(index:Int) = vector.vector(index)
+  override def apply(index: Int) = vector.vector(index)
   override def toDoubleVec = vector.vector
 }

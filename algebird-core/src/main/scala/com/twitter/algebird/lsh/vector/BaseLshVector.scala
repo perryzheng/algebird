@@ -9,9 +9,9 @@ import com.twitter.algebird._
  */
 trait BaseLshVector {
   def size: Int
-  def apply(index: Int): Double  // Return Vector[index]
+  def apply(index: Int): Double // Return Vector[index]
   def toDoubleVec: Array[Double]
-  override def hashCode:Int = util.Arrays.hashCode(toDoubleVec)
+  override def hashCode: Int = util.Arrays.hashCode(toDoubleVec)
 }
 
 /**
@@ -38,5 +38,5 @@ class SummingArrayMonoid[T](implicit semi: Semigroup[T], manifest: Manifest[T])
  */
 class SummingArrayGroup[T](implicit grp: Group[T], manifest: Manifest[T])
   extends SummingArrayMonoid[T]()(grp, manifest) with Group[Array[T]] {
-  override def negate(g: Array[T]): Array[T] = g.map{ grp.negate(_)}.toArray
+  override def negate(g: Array[T]): Array[T] = g.map{ grp.negate(_) }.toArray
 }
