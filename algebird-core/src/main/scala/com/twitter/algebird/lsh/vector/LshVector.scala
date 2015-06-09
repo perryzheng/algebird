@@ -1,6 +1,17 @@
 package com.twitter.algebird.lsh.vector
 
-import com.twitter.algebird.Monoid
+import com.twitter.algebird.{ ArrayMonoid, Monoid }
+import java.util
+
+/**
+ * An LshVector must permit the operations listed below.
+ */
+trait BaseLshVector {
+  def size: Int
+  def apply(index: Int): Double // Return Vector(index)
+  def toDoubleVec: Array[Double]
+  override def hashCode: Int = util.Arrays.hashCode(toDoubleVec)
+}
 
 /**
  * DoubleLshVector is just a thin wrapper around an Array of Doubles. It's pretty much the most
@@ -18,10 +29,9 @@ object LshVector {
 }
 
 object LshVectorMonoid extends Monoid[LshVector] {
-  val saMonoid = new SummingArrayMonoid[Double]()
-
-  override def zero = LshVector(saMonoid.zero)
+  val arrayMonoid = new ArrayMonoid[Double]()
+  override def zero = LshVector(arrayMonoid.zero)
 
   override def plus(left: LshVector, right: LshVector) =
-    LshVector(saMonoid.plus(left.vector, right.vector))
+    LshVector(arrayMonoid.plus(left.vector, right.vector))
 }
